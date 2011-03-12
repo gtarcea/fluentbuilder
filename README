@@ -1,0 +1,161 @@
+FluentBuilder makes implementing the Builder pattern as outlined in Item 2 of
+Effective Java 2nd Edition by Josh Bloch easier. The Builder pattern outlined
+in the book is useful when classes take a large number of parameters, when
+many of the parameters are of the same type and/or when you have many
+optional parameters and need to create a large number of constructors and/or
+factory methods to handle all the cases.
+
+FluentBuilder makes creating the builder simpler by removing the large amount
+of boiler plate code that accompanies creating a builder. Consider the
+example from Effective Java. The class with the builder shown in Effective
+Java is reproduced below:
+
+    public class NutritionFacts
+    {
+
+        private final int servingSize;
+        private final int servings;
+        private final int calories;
+        private final int fat;
+        private final int sodium;
+        private final int carbohydrate;
+
+        public static class Builder
+        {
+            // Required parameters
+            private final int servingSize;
+            private final int servings;
+            // Optional parameters - initialized to default values
+            private int calories = 0;
+            private int fat = 0;
+            private int carbohydrate = 0;
+            private int sodium = 0;
+
+            public Builder(int servingSize, int servings)
+            {
+                this.servingSize = servingSize;
+                this.servings = servings;
+            }
+
+            public Builder calories(int val)
+            {
+                calories = val;
+                return this;
+            }
+
+            public Builder fat(int val)
+            {
+                fat = val;
+                return this;
+            }
+
+            public Builder carbohydrate(int val)
+            {
+                carbohydrate = val;
+                return this;
+            }
+
+            public Builder sodium(int val)
+            {
+                sodium = val;
+                return this;
+            }
+
+            public NutritionFacts build()
+            {
+                return new NutritionFacts(this);
+            }
+        }
+
+        private NutritionFacts(Builder builder)
+        {
+            servingSize = builder.servingSize;
+            servings = builder.servings;
+            calories = builder.calories;
+            fat = builder.fat;
+            sodium = builder.sodium;
+            carbohydrate = builder.carbohydrate;
+        }
+    }
+
+You can see that there is large amount of simple boiler plate code that needs
+to be written to implement the builder. Not only is this tedious to write
+(and thus is unlikely to be done) but it also obscures the logic of the
+class. In the example above most of the code for the class is in the builder
+itself. In contrast FluentBuilder eliminates nearly all the boiler plate code
+needed to construct a builder. This means almost all the code for the class
+is concentrated on core logic for the class. Also the reduction in code means
+that the Builder pattern can be more easily employed. Below is the same class
+but this time reimplemented using FluentBuilder to construct the builder.
+
+import org.a2sdl.builder.FluentBuilder;
+import org.a2sdl.builder.annotation.DefaultValue;
+
+public class NutritionFacts
+{
+     private final int servingSize;
+     private final int servings;
+
+     @DefaultValue(intValue = 0)
+     private final int calories;
+
+     @DefaultValue(intValue = 0)
+     private final int fat;
+
+     @DefaultValue(intValue = 0)
+     private final int sodium;
+
+     @DefaultValue(intValue = 0)
+     private final int carbohydrate;
+
+     public NutritionFacts(int servingSize, int servings, int calories, int fat, int sodium, int carbohydrates)
+     {
+         this.servingSize = servingSize;
+         this.servings = servings;
+         this.calories = calories;
+         this.fat = fat;
+         this.sodium = sodium;
+         this.carbohydrates = carbohydrates;
+     }
+
+     public interface Builder
+     {
+         public Builder servingSize(int s);
+         public Builder servings(int s);
+         public Builder calories(int c);
+         public Builder fat(int f);
+         public Builder sodium(int s);
+         public Builder carbohydrates(int c);
+         public NutritionFacts build();
+     }
+
+     public static Builder builder() { return FluentBuilder.of(NutritionFacts.class); }
+}
+
+The version of NutritionFacts written using FluentBuilder eliminates nearly
+all the boiler plate code. In place of the original code is an internal
+public interface named "Builder" that defines the calls used for the builder,
+the placement of the {@code @DefaultValue} annotation to set default values
+on some fields and a static factory method that creates the builder. There is
+no extra logic and boiler plate code needed to create the builder. The extra
+code needed to use the Builder pattern is mostly limited to defining the
+* no extra logic and boiler plate code needed to create the builder. The extra
+code needed to use the Builder pattern is mostly limited to defining the
+Builder interface in a class.
+
+The FluentBuilder has a couple of simple steps that must be followed to use
+it:
+<ul>
+<li>1. There must be a public constructor with a parameter list for each
+property in the class. The parameters must be in the same order as the
+property declarations.</li>
+<li>2. The methods in the Builder interface must have the same name as the
+properties in the class.</li>
+<li>3. Only primitive (and their equivalent non-primitive type (eg. int and
+Integer) and String may have default values assigned to them. This limitation
+is an annotation limitation (you can't have an annotatin that takes an
+arbitrary type)</li>
+<li>4. The Builder interface must have a build() method to construct the
+bean.</li>
+</ul>
+

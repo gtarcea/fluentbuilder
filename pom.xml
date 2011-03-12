@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>fluentbuilder</artifactId>
+	<groupId>org.a2sdl</groupId>
+	<name>A FluentBuilder for Java</name>
+	<version>1.0</version>
+	<organization>
+		<name>NCIBI</name>
+		<url>http://www.ncibi.org/</url>
+	</organization>
+	<inceptionYear>2009</inceptionYear>
+	<licenses>
+		<license>
+			<name>Educational Community License, Version 2.0</name>
+			<url>http://www.osedu.org/licenses/ECL-2.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<packaging>jar</packaging>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.5</source>
+						<target>1.5</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.4</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>
