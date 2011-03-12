@@ -145,17 +145,8 @@ Builder interface in a class.
 
 The FluentBuilder has a couple of simple steps that must be followed to use
 it:
-<ul>
-<li>1. There must be a public constructor with a parameter list for each
-property in the class. The parameters must be in the same order as the
-property declarations.</li>
-<li>2. The methods in the Builder interface must have the same name as the
-properties in the class.</li>
-<li>3. Only primitive (and their equivalent non-primitive type (eg. int and
-Integer) and String may have default values assigned to them. This limitation
-is an annotation limitation (you can't have an annotatin that takes an
-arbitrary type)</li>
-<li>4. The Builder interface must have a build() method to construct the
-bean.</li>
-</ul>
+1. There must be a public constructor with a parameter list for each property in the class. The parameters must be in the same order as the property declarations.
+2. The methods in the Builder interface must have the same name as the properties in the class.
+3. Only primitive (and their equivalent non-primitive type (eg. int and Integer) and String may have default values assigned to them. This limitation  is an annotation limitation (you can't have an annotatin that takes an arbitrary type)
+4. The Builder interface must have a build() method to construct the bean.
 
